@@ -14,6 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.navArgs
+import androidx.recyclerview.widget.RecyclerView
 
 class menu_drawer : AppCompatActivity() {
 
@@ -25,6 +26,9 @@ class menu_drawer : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+
+       // val recycler = findViewById<RecyclerView>(R.id.nav_view)
+      //  recycler.adapter =
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
@@ -60,10 +64,13 @@ class menu_drawer : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_drawer, menu)
         return true
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+    //configuración del web view
+
 }
