@@ -1,6 +1,7 @@
 package com.example.depttogo.ui.gallery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +14,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.depttogo.R
 import com.example.depttogo.databinding.ActivityMainBinding
 import com.example.depttogo.menu_drawer
+import com.example.depttogo.retrofit.IProductos
+import com.example.depttogo.retrofit.RetrofitClase
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class GalleryFragment : Fragment() {
     private lateinit var galleryViewModel: GalleryViewModel
     private lateinit var productos_gallery: ActivityMainBinding
+    private lateinit var rvProductos: RecyclerView
 
 
     val productosList = listOf(
@@ -29,27 +36,59 @@ class GalleryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?): View?{
 
-
-
-
-    ): View? {
-        galleryViewModel =
-            ViewModelProvider(this).get(GalleryViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_gallery, container, false)
+        //BUSCAR RECYCLER
+        rvProductos = root.findViewById(R.id.rvProductos)
+        llamadaRetrofit()
+        initRecycler()
+        return root
+
+
+    //): View? {
+       // galleryViewModel =
+          //  ViewModelProvider(this).get(GalleryViewModel::class.java)
+
       //  val textView: TextView = root.findViewById(R.id.titulo)
       // galleryViewModel.text.observe(viewLifecycleOwner, Observer {
            //textView.text = it
      //  })
-        return root
+    }
+
+    fun llamadaRetrofit() {
+        val retrofit = RetrofitClase.getRetrofit()
+        //interfaz mapeada directamene con retrofit
+        val retrofitService = retrofit.create(IProductos::class.java)
+        //preticio, primero se crea con el service y una lista de productos
+        val peticion: Call<List<ListaProductos>> = retrofitService.listProductos()
+        // se realiza la peticion
+        peticion.enqueue(object: Callback<List<ListaProductos>>{
+            override fun onResponse(
+                call: Call<List<ListaProductos>>,
+                response: Response<List<ListaProductos>>
+            ) {
+                // cuando si responde y utilizo la libreria
+                val listaProductos = response.body()
+                initRecycler(listaProductos!!)
+            }
+
+            override fun onFailure(call: Call<List<ListaProductos>>, t: Throwable) {
+                //Cuando nos da un problema
+                Log.e("ERROR:", "Hubo un problema ${t.message}")
+
+            }
+
+
+        });
 
 
     }
 
-    fun initRecycler(){
-        rvProductos.layoutManager = LinearLayoutManager(this)
-        val adapter= ProductosAdapter(rvProductos)
+
+    fun initRecycler(lista: List<ListaProductos>){
+        rvProductos.layoutManager = LinearLayoutManager(context)
+        val adapter= ProductosAdapter(lista)
         rvProductos.adapter = adapter
 
 

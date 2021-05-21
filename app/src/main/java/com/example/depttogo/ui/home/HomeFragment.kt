@@ -27,60 +27,20 @@ class HomeFragment : Fragment() {
 
 
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
         return view;
         //Refresh
-        swipeResfresh.setOnRefreshListenner{
-
-            webview.reload()
-        }
         //search
+        //cuando se carga la pagina
+        //override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+        //  super.onPageStarted(view, url, favicon)
+        //     searchView.setQuey(url, false)
+        //    swipeRefresh.isRefreshing= true
+        // }
 
-        searchView.setOnQueryTextListenner(object: SearchView.OnQueryTextListener{
-            override fun onQueryTextChange(p0: String?): Boolean{
-                return false
-
-            }
-            override fun onQueryTextSubmit(p0: String): Boolean{
-
-                p0?.let{
-                    if(URLUtil.isValidUrl(it))
-                    //sí es una url
-                        webView.loadUrl(it)
-                }else{
-                    //si no es url
-                    webView.loadUrl("$BASE_URL$SEAR_PATH$it")
-                }
-                return false
-            }
-
-        })
-
-        //WebView
-        webView.webChromeClient = object : WebChromeClient(){
-
-
-        }
-
-        webView.webViewClient = object  : WebViewClient(){
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                return false
-                 }
-
-
-
-                //cuando se carga la pagina
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                super.onPageStarted(view, url, favicon)
-                    searchView.setQuey(url, false)
-                    swipeRefresh.isRefreshing= true
-
-
-            }
-
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
-                swipeRefresh.isRefreshing = false
+        // override fun onPageFinished(view: WebView?, url: String?) {
+        //     super.onPageFinished(view, url)
+        /*       swipeRefresh.isRefreshing = false
             }
 
         }
@@ -100,5 +60,6 @@ class HomeFragment : Fragment() {
         }
 
     }
-
+    */
+    }
 }
