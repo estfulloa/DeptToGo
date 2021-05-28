@@ -1,7 +1,12 @@
 package com.example.depttogo.ui.gallery
 
- data class ListaProductos(val nombreProducto:String,
- val descripcion:String,
- val image:String,
- val precio:Float
+import com.google.gson.annotations.SerializedName
+
+data class ListaProductos(@SerializedName("nombreProducto") val nombreProducto:String,
+                          @SerializedName("descripcion") val descripcion:String,
+                          @SerializedName("image") val image: List<String>,
+                          @SerializedName("precio") val precio:Float
+// el @SerializedName("precio") debe de estar igual al de la llamada de la API
+
+
  )

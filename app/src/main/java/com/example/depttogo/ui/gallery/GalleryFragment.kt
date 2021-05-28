@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -24,6 +25,7 @@ class GalleryFragment : Fragment() {
     private lateinit var galleryViewModel: GalleryViewModel
     private lateinit var productos_gallery: ActivityMainBinding
     private lateinit var rvProductos: RecyclerView
+    private lateinit var searchView: SearchView
 
 
     val productosList = listOf(
@@ -43,6 +45,7 @@ class GalleryFragment : Fragment() {
         rvProductos = root.findViewById(R.id.rvProductos)
         llamadaRetrofit()
         initRecycler()
+        searchView = root.findViewById(R.id.searchView)
         return root
 
 
@@ -54,6 +57,17 @@ class GalleryFragment : Fragment() {
       // galleryViewModel.text.observe(viewLifecycleOwner, Observer {
            //textView.text = it
      //  })
+    }
+    fun searView(){
+        //searchView = llamadaRetrofit()
+
+    }
+
+    fun initRecycler(lista: List<ListaProductos>) {
+        rvProductos.layoutManager = LinearLayoutManager(context)
+        val adapter= ProductosAdapter(lista)
+        rvProductos.adapter =adapter
+
     }
 
     fun llamadaRetrofit() {
@@ -81,16 +95,13 @@ class GalleryFragment : Fragment() {
 
 
         });
+       /* fun initRecycler(lista: List<ListaProductos>){
+            rvProductos.layoutManager = LinearLayoutManager(context)
+            val adapter= ProductosAdapter(lista)
+            rvProductos.adapter = adapter
+        */
+
+        }
 
 
     }
-
-
-    fun initRecycler(lista: List<ListaProductos>){
-        rvProductos.layoutManager = LinearLayoutManager(context)
-        val adapter= ProductosAdapter(lista)
-        rvProductos.adapter = adapter
-
-
-    }
-}
